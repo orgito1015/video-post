@@ -46,9 +46,9 @@ Project type: **client**
 
 1. Checks if the current time and date match the publication date configured in the google sheet.
 
-1. Validate the videos in *downloads* folder with the name or download it from tiktok.
+2. Validate the videos in *downloads* folder with the name or download it from tiktok.
 
-2. Validate the duration of the video for each social network, and made the necessaries file conversions. 
+3. Validate the duration of the video for each social network, and made the necessaries file conversions. 
 
 Note: each social network have different limits of duration for the videos.
 If a video is longer than the page limits, it is automatically skipped.
@@ -61,7 +61,7 @@ If a video is longer than the page limits, it is automatically skipped.
 
 Additional, for upload the videos to twitter, they require and extra conversion with the page: https://servicios-web.online-convert.com/es/convertir-para-twitter (This step is done automatically)
 
-3. Post the video in each social network type the tilte, description and tags/keywords.
+3. Post the video in each social network type the title, description and tags/keywords.
 
 4. Move the video to **done** folder.
 
@@ -105,7 +105,7 @@ $ pip install -r requirements.txt
 
 ## Programs
 
-To run the project, the following programs must be installed:: 
+To run the project, the following programs must be installed: 
 
 * [Google Chrome](https://www.google.com/intl/es/chrome) last version
 
@@ -155,7 +155,7 @@ Before running the project, you need to do some extra steeps for prepare your go
 
 All **configurations** are saved in a **config.json file**, so **you can create and edit it manually**
 
-This is the content of the file (copy, paste, and replace with your datz):
+This is the content of the file (copy, paste, and replace with your data):
 
 ```json
 {
@@ -197,11 +197,11 @@ Post (true) or skip (false) all the videos for twitter
 Post (true) or skip (false) all the videos for youtube
 
 ### tiktok
-Post (true) or skip (false) all the videos for youtube
+Post (true) or skip (false) all the videos for tiktok
 
 ## Google sheet
 
-Her the details about howe to use the columns in the google sheet:
+Here are the details about how to use the columns in the google sheet:
 
 Column|description|sample
 |---|---|---|
@@ -219,7 +219,7 @@ uploaded tiktok|if the video is already processed, show if it have been posted i
 
 # Run
 
-After do the last steps, you can use the program running the **__ main__.py** or the project folder with your python 3.9 interpreter.
+After do the last steps, you can use the program running the **__main__.py** or the project folder with your python 3.9 interpreter.
 
 Only, before of each running, be sure of: 
 
@@ -234,4 +234,52 @@ Here a tutorial about how to [kill google chrome process in windows](https://git
 ### Close google sheet
 
 To ensure data integrity, do not edit or make changes to the spreadsheet while the program is running.
+
+# TikTok → Facebook Automation (Node.js)
+
+A separate Node.js service that monitors a TikTok account and automatically posts new videos to a Facebook Page.
+
+## How it works
+
+1. Every 10 minutes, the service fetches the latest videos from the configured TikTok username via the [Apify TikTok Scraper](https://apify.com/clockworks/free-tiktok-scraper).
+2. Any video that has not been posted before is downloaded to a temporary folder.
+3. The video is uploaded to the Facebook Page using the Graph API.
+4. The TikTok video ID is saved locally so the same video is never re-posted.
+
+## Install (Node.js)
+
+```bash
+npm install
+```
+
+## Settings (Node.js)
+
+Copy `.env.example` to `.env` and fill in the values:
+
+```
+APIFY_TOKEN=your_apify_token_here
+TIKTOK_USERNAME=example_tiktok_user
+FACEBOOK_PAGE_ID=your_facebook_page_id
+FACEBOOK_ACCESS_TOKEN=your_facebook_access_token
+```
+
+### APIFY_TOKEN
+API token from your [Apify account](https://console.apify.com/account/integrations).
+
+### TIKTOK_USERNAME
+TikTok username to monitor (without the `@` symbol).
+
+### FACEBOOK_PAGE_ID
+The numeric ID of your Facebook Page.
+
+### FACEBOOK_ACCESS_TOKEN
+A long-lived Facebook Page access token with `pages_manage_posts` and `pages_read_engagement` permissions.
+
+## Run (Node.js)
+
+```bash
+npm start
+```
+
+The service runs immediately on startup and then every 10 minutes.
 
