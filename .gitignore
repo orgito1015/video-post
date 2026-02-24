@@ -1,6 +1,8 @@
 __pycache__
 *__pycache__
 *.json
+!package.json
+!package-lock.json
 *temp.*
 temp.*
 *.log*
@@ -14,3 +16,9 @@ videos.txt
 venv
 videos.xlsx
 *.mp4
+
+# Node.js
+node_modules/
+.env
+data/
+tmp/
